@@ -70,7 +70,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
 
    # Message ends with a single period.
    clientSocket.send(endmsg.encode())
-   recv6 = clientSocket.recv(1024)
+   #recv6 = clientSocket.recv(1024)
    #print (recv6)
    #if recv6[:3] != '250':
       #print ('250 reply not received from server.')
@@ -78,7 +78,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
    # Send QUIT command and get server response.
    quitCommand = 'QUIT\r\n'
    ssl_clientSocket.write(quitCommand.encode())
-   recv7 = ssl_clientSocket.recv(1024)
+   #recv7 = ssl_clientSocket.recv(1024)
    #print (recv7)
    #if recv7[:3] != '221':
       #print ('221 reply not received from server.')
