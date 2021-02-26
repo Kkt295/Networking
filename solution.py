@@ -1,5 +1,4 @@
 from socket import *
-import ssl
 
 
 def smtp_client(port=1025, mailserver='127.0.0.1'):
@@ -14,8 +13,8 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
    # Create socket called clientSocket and establish a TCP connection with mailserver and port
    clientSocket = socket(AF_INET, SOCK_STREAM)
    clientSocket.connect((mailserver, port))
-
    #recv = clientSocket.recv(1024).decode()
+   
    #print(recv)
    #if recv[:3] != '220':
       #print('220 reply not received from server.')
@@ -23,36 +22,25 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
    # Send HELO command and print server response.
    heloCommand = 'HELO Alice\r\n'
    clientSocket.send(heloCommand.encode())
-   #recv1 = clientSocket.recv(1024).decode()
+   recv1 = clientSocket.recv(1024).decode()
    #print(recv1)
    #if recv1[:3] != '250':
       #print('250 reply not received from server.')
 
-   #Encrypting Connection
-   #TlsCommand = 'STARTTLS\r\n'
-   #clientSocket.send(TlsCommand.encode())
-   #recv2 = clientSocket.recv(1024).decode()
-   #print (recv2)
-   #if recv2[:3] != '220':
-      #print ('220 reply not received from server')
-
-   # Encrypting Socket
-   #ssl_clientSocket = socket.ssl(clientSocket)
-
    # Send MAIL FROM command and print server response.
-   #sender = "<username@gmail.com>"
-   #MailFrom = 'MAIL FROM: ' + sender + '\r\n'
-   #clientSocket.send(MailFrom.encode())
-   #recv3 = clientSocket.recv(1024)
+   sender = "<kkt295@nyu.com>"
+   MailFrom = 'MAIL FROM: ' + sender + '\r\n'
+   clientSocket.send(MailFrom.encode())
+   recv3 = clientSocket.recv(1024)
    #print (recv3)
    #if recv3[:3] != '250':
       #print('250 reply not received from server.')
 
    # Send RCPT TO command and print server response.
-   #recipient = "<username@gmail.com>"
-   #rcptToCommand = 'RCPT TO: ' + recipient + '\r\n'
-   #clientSocket.send(rcptToCommand.encode())
-   #recv4 = clientSocket.recv(1024)
+   recipient = "<kkt295@nyu.edu>"
+   rcptCommand = 'RCPT TO: ' + recipient + '\r\n'
+   clientSocket.send(rcptCommand.encode())
+   recv4 = clientSocket.recv(1024)
    #print (recv4)
    #if recv4[:3] != '250':
       #print('250 reply not received from server.')
@@ -77,7 +65,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
 
    # Send QUIT command and get server response.
    quitCommand = 'QUIT\r\n'
-   clientSocket.write(quitCommand.encode())
+   clientSocket.send(quitCommand.encode())
    #recv7 = ssl_clientSocket.recv(1024)
    #print (recv7)
    #if recv7[:3] != '221':
