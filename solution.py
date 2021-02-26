@@ -15,7 +15,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
    clientSocket = socket(AF_INET, SOCK_STREAM)
    clientSocket.connect((mailserver, port))
 
-   recv = clientSocket.recv(1024).decode()
+   #recv = clientSocket.recv(1024).decode()
    #print(recv)
    #if recv[:3] != '220':
       #print('220 reply not received from server.')
@@ -23,7 +23,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
    # Send HELO command and print server response.
    heloCommand = 'HELO Alice\r\n'
    clientSocket.send(heloCommand.encode())
-   recv1 = clientSocket.recv(1024).decode()
+   #recv1 = clientSocket.recv(1024).decode()
    #print(recv1)
    #if recv1[:3] != '250':
       #print('250 reply not received from server.')
