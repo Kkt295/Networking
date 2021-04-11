@@ -63,7 +63,7 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         roundtrip_cnt += 1
         roundtrip_sum += roundtrip
         roundtrip_min = min(roundtrip_min, roundtrip)
-        roundtrip_max = max(roundtrip_max, rtt)
+        roundtrip_max = max(roundtrip_max, roundtrip)
         header = struct.unpack('!BBHHHBBH4s4s' , recPacket[:20])
         ttl = header[5]
         saddr = socket.inet_ntoa(header[8])
