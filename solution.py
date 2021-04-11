@@ -92,9 +92,9 @@ def sendOnePing(mySocket, destAddr, ID):
 
     if sys.platform == 'darwin':
         # Convert 16-bit integers from host to network  byte order
-        myChecksum = htons(myChecksum) & 0xffff
+        myChecksum = socket.htons(myChecksum) & 0xffff
     else:
-        myChecksum = htons(myChecksum)
+        myChecksum = socket.htons(myChecksum)
 
 
     header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, ID, 1)
@@ -107,7 +107,7 @@ def sendOnePing(mySocket, destAddr, ID):
     # which can be referenced by their position number within the object.
 
 def doOnePing(destAddr, timeout):
-    icmp = getprotobyname("icmp")
+    icmp = socket.getprotobyname("icmp")
 
 
     # SOCK_RAW is a powerful socket type. For more details:   http://sockraw.org/papers/sock_raw
