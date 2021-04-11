@@ -48,19 +48,14 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         recPacket, addr = mySocket.recvfrom(1024)
 
         # Fill in start
-
-
+        # Fetch the ICMP header from the IP packet
         type, code, checksum, id, seq = struct.unpack('bbHHh', recPacket[20:28])
-
         if type != 0:
             return 'expected type=0, but got {}'.format(type)
-
         if code != 0:
             return 'expected code=0, but got {}'.format(code)
-
         if ID != id:
             return 'expected id={}, but got {}'.format(ID, id)
-
         intransit,  = struct.unpack('d', recPacket[28:])
         
         roundtrip = (timeReceived - intransit) * 1000
@@ -75,10 +70,6 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         length = len(recPacket) - 20
 
         return '{} bytes from {}: icmp_seq={} ttl={} time={:.3f} ms'.format(length, saddr, seq, ttl, roundtrip)
-
-
-        # Fetch the ICMP header from the IP packet
-
         # Fill in end
 
         timeLeft = timeLeft - howLongInSelect
