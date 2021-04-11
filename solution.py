@@ -66,7 +66,7 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         roundtrip_max = max(roundtrip_max, roundtrip)
         header = struct.unpack('!BBHHHBBH4s4s' , recPacket[:20])
         ttl = header[5]
-        saddr = header[8
+        saddr = header[8]
         length = len(recPacket) - 20
 
         return '{} bytes from {}: icmp_seq={} ttl={} time={:.3f} ms'.format(length, saddr, seq, ttl, roundtrip)
