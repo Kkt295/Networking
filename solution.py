@@ -35,6 +35,7 @@ def checksum(string):
 
 
 def receiveOnePing(mySocket, ID, timeout, destAddr):
+    global roundtrip_min, roundtrip_max, roundtrip_sum, roundtrip_cnt
     timeLeft = timeout
 
     while 1:
@@ -56,14 +57,13 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
             return 'expected code=0, but got {}'.format(code)
         if ID != id:
             return 'expected id={}, but got {}'.format(ID, id)
-        intransit,  = struct.unpack('d', recPacket[28:])
         
+        intransit,  = struct.unpack('d', recPacket[28:])
         roundtrip = (timeReceived - intransit) * 1000
         roundtrip_cnt += 1
         roundtrip_sum += roundtrip
         roundtrip_min = min(roundtrip_min, roundtrip)
         roundtrip_max = max(roundtrip_max, rtt)
-
         header = struct.unpack('!BBHHHBBH4s4s' , recPacket[:20])
         ttl = header[5]
         saddr = socket.inet_ntoa(header[8])
