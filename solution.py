@@ -123,7 +123,7 @@ def doOnePing(destAddr, timeout):
 def ping(host, timeout=1):
     global roundtrip_min, roundtrip_max, roundtrip_sum, roundtrip_cnt
     roundtrip_min = float('+inf')
-    roundtrip_min = float('-inf')
+    roundtrip_max = float('-inf')
     roundtrip_sum = 0
     roundtrip_cnt = 0
     # timeout=1 means: If one second goes by without a reply from the server,  	# the client assumes that either the client's ping or the server's pong is lost
