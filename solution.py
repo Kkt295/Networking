@@ -69,7 +69,8 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         saddr = socket.inet_ntoa(header[8])
         length = len(recPacket) - 20
 
-        return '{} bytes from {}: icmp_seq={} ttl={} time={:.3f} ms'.format(length, saddr, seq, ttl, roundtrip)
+        vars = [float(round(roundtrip_min, 2)), float(round(roundtrip, 2)),float(round(roundtrip_max, 2)), float(round(pstdev(roundtrip),2))]
+        return vars
         # Fill in end
 
         timeLeft = timeLeft - howLongInSelect
