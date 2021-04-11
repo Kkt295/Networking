@@ -111,7 +111,7 @@ def doOnePing(destAddr, timeout):
 
 
     # SOCK_RAW is a powerful socket type. For more details:   http://sockraw.org/papers/sock_raw
-    mySocket = socket.socket(AF_INET, SOCK_RAW, icmp)
+    mySocket = socket.socket(socket.AF_INET, socket.SOCK_RAW, icmp)
 
     myID = os.getpid() & 0xFFFF  # Return the current process i
     sendOnePing(mySocket, destAddr, myID)
