@@ -1,9 +1,9 @@
+from socket import *
 import os
 import sys
 import struct
 import time
 import select
-import socket
 import binascii
 # Should use stdev
 
@@ -35,7 +35,6 @@ def checksum(string):
 
 
 def receiveOnePing(mySocket, ID, timeout, destAddr):
-    global roundtrip_min, roundtrip_max, roundtrip_sum, roundtrip_cnt
     timeLeft = timeout
 
     while 1:
@@ -50,29 +49,15 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
 
         # Fill in start
         # Fetch the ICMP header from the IP packet
-        type, code, checksum, id, seq = struct.unpack('bbHHh', recPacket[20:28])
-        if type != 0:
-            return 'expected type=0, but got {}'.format(type)
-        if code != 0:
-            return 'expected code=0, but got {}'.format(code)
-        if ID != id:
-            return 'expected id={}, but got {}'.format(ID, id)
-        
-        intransit,  = struct.unpack('d', recPacket[28:])
-        roundtrip = (timeReceived - intransit) * 1000
-        roundtrip_cnt += 1
-        roundtrip_sum += roundtrip
-        roundtrip_min = min(roundtrip_min, roundtrip)
-        roundtrip_max = max(roundtrip_max, roundtrip)
-        header = struct.unpack('!BBHHHBBH4s4s' , recPacket[:20])
-        ttl = socket.inet_ntoa(header[5])
-        saddr = socket.inet_ntoa(header[8])
-        length = len(recPacket) - 20
-
-        vars = [float(round(roundtrip_min, 2)), float(round(roundtrip, 2)),float(round(roundtrip_max, 2)), float(round(pstdev(roundtrip),2))]
-        return vars
+        icmpType, code, mychecksum, packetID, sequence = struct.unpack("bbHHh", recPacket[20:28])
+    
+        if type == 8 and if packetID == ID:
+                bytesInDouble = struct.calcsize("d")
+                timeSent = struct.unpack("d", recPacket[28:28 + bytesInDouble])[0]
+                toundtriptime = timeReceived - timeSent
+                return roundtriptime
         # Fill in end
-
+        
         timeLeft = timeLeft - howLongInSelect
         if timeLeft <= 0:
             return "Request timed out."
@@ -93,9 +78,9 @@ def sendOnePing(mySocket, destAddr, ID):
 
     if sys.platform == 'darwin':
         # Convert 16-bit integers from host to network  byte order
-        myChecksum = socket.htons(myChecksum) & 0xffff
+        myChecksum = htons(myChecksum) & 0xffff
     else:
-        myChecksum = socket.htons(myChecksum)
+        myChecksum = htons(myChecksum)
 
 
     header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, ID, 1)
@@ -108,11 +93,11 @@ def sendOnePing(mySocket, destAddr, ID):
     # which can be referenced by their position number within the object.
 
 def doOnePing(destAddr, timeout):
-    icmp = socket.getprotobyname("icmp")
+    icmp = getprotobyname("icmp")
 
 
     # SOCK_RAW is a powerful socket type. For more details:   http://sockraw.org/papers/sock_raw
-    mySocket = socket.socket(socket.AF_INET, socket.SOCK_RAW, icmp)
+    mySocket = socket(AF_INET, SOCK_RAW, icmp)
 
     myID = os.getpid() & 0xFFFF  # Return the current process i
     sendOnePing(mySocket, destAddr, myID)
@@ -122,21 +107,17 @@ def doOnePing(destAddr, timeout):
 
 
 def ping(host, timeout=1):
-    global roundtrip_min, roundtrip_max, roundtrip_sum, roundtrip_cnt
-    roundtrip_min = float('+inf')
-    roundtrip_max = float('-inf')
-    roundtrip_sum = 0
-    roundtrip_cnt = 0
     # timeout=1 means: If one second goes by without a reply from the server,  	# the client assumes that either the client's ping or the server's pong is lost
-    dest = socket.gethostbyname(host)
-    # print("Pinging " + dest + " using Python:")
-    #     print("")
+    dest = gethostbyname(host)
+    #print("Pinging " + dest + " using Python:")
+    #print("")
     # Calculate vars values and return them
-    #  vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
+    vars = [float(round(packet_min, 2)), float(round(packet_avg, 2)), float(round(packet_max, 2)), float(round(pstdev(pstdev_var), 2))]
+    return vars
     # Send ping requests to a server separated by approximately one second
     for i in range(0,4):
         delay = doOnePing(dest, timeout)
-    #     print(delay)
+        #print(delay)
         time.sleep(1)  # one second
 
     return vars
