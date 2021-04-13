@@ -147,7 +147,7 @@ def ping(host, timeout=1):
    #vars = [packet_min,packet_avg,packet_max,stdev_var]
    return vars
 
-#if __name__ == '__main__':
- #  ping("google.co.il")
+if __name__ == '__main__':
+   ping("google.co.il")
 
 ping("www.google.com")
