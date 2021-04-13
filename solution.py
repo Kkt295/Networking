@@ -98,8 +98,8 @@ def get_route(hostname):
                     tracelist1 = [str(ttl), '*', "Request timed out"]
                     #Fill in start
                     #You should add the list above to your all traces list
-                    #print(*tracelist1, sep = "  ")
-                    #print("")
+                    print(*tracelist1, sep = "  ")
+                    print("")
                     tracelist2.append(tracelist1)
                     #Fill in end
                 recvPacket, addr = mySocket.recvfrom(1024)
@@ -109,8 +109,8 @@ def get_route(hostname):
                     tracelist1 = [str(ttl), '*', "Request timed out"]
                     #Fill in start
                     #You should add the list above to your all traces list
-                    #print(*tracelist1, sep = "  ")
-                    #print("")
+                    print(*tracelist1, sep = "  ")
+                    print("")
                     tracelist2.append(tracelist1)
                     #Fill in end
             except timeout:
@@ -142,8 +142,8 @@ def get_route(hostname):
                     tracelist1 = [str(ttl), rtt, hostAddr, recHostName]
                     tracelist2.append(tracelist1)
                     
-                    #print(*tracelist1, sep = "  ")
-                    #print("")
+                    print(*tracelist1, sep = "  ")
+                    print("")
                     
                     #Fill in end
                 elif types == 3:
@@ -157,8 +157,8 @@ def get_route(hostname):
                     tracelist1 = [str(ttl), rtt, hostAddr, recHostName]
                     tracelist2.append(tracelist1)
                     
-                    #print(*tracelist1, sep = "  ")
-                    #print("")
+                    print(*tracelist1, sep = "  ")
+                    print("")
                     
                     #Fill in end
                 elif types == 0:
@@ -172,8 +172,8 @@ def get_route(hostname):
                     tracelist1 = [str(ttl), rtt, hostAddr, recHostName]
                     tracelist2.append(tracelist1)
                     
-                    #print(*tracelist1, sep = "  ")
-                    #print("")
+                    print(*tracelist1, sep = "  ")
+                    print("")
                     
                     if hostAddr == destAddr:
 
@@ -187,6 +187,5 @@ def get_route(hostname):
 
             finally:
                 mySocket.close()
-
-
-get_route("www.google.com")
+              
+      
