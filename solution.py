@@ -126,7 +126,7 @@ def get_route(hostname):
                     #Fill in start
                     hostAddr = struct.unpack("!4s", recvPacket[12:16])[0]
                     hostAddr = str(ipaddress.IPv4Address(hostAddr))
-                    recHostName = gethostbyaddr(hostAddr)[0]
+                    recHostName = gethostbyaddr(hostAddr)
                     #Fill in end
                 except herror:   #if the host does not provide a hostname
                     #Fill in start
@@ -142,8 +142,8 @@ def get_route(hostname):
                     tracelist1 = [str(ttl), rtt, hostAddr, recHostName]
                     tracelist2.append(tracelist1)
                     
-                    print(*tracelist1, sep = "  ")
-                    print("")
+                    #print(*tracelist1, sep = "  ")
+                    #print("")
                     
                     #Fill in end
                 elif types == 3:
@@ -157,8 +157,8 @@ def get_route(hostname):
                     tracelist1 = [str(ttl), rtt, hostAddr, recHostName]
                     tracelist2.append(tracelist1)
                     
-                    print(*tracelist1, sep = "  ")
-                    print("")
+                    #print(*tracelist1, sep = "  ")
+                    #print("")
                     
                     #Fill in end
                 elif types == 0:
@@ -172,8 +172,8 @@ def get_route(hostname):
                     tracelist1 = [str(ttl), rtt, hostAddr, recHostName]
                     tracelist2.append(tracelist1)
                     
-                    print(*tracelist1, sep = "  ")
-                    print("")
+                    #print(*tracelist1, sep = "  ")
+                    #print("")
                     
                     if hostAddr == destAddr:
 
